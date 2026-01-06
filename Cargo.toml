@@ -57,7 +57,7 @@ miden-assembly        = { default-features = false, version = "0.20" }
 miden-assembly-syntax = { default-features = false, version = "0.20" }
 miden-core            = { default-features = false, version = "0.20" }
 miden-core-lib        = { default-features = false, version = "0.20" }
-miden-crypto          = { default-features = false, version = "0.19" }
+miden-crypto          = { default-features = false, git = "https://github.com/0xMiden/crypto.git", branch = "bernhard-migrate-rocksdb-from-crypto" }
 miden-mast-package    = { default-features = false, version = "0.20" }
 miden-processor       = { default-features = false, version = "0.20" }
 miden-prover          = { default-features = false, version = "0.20" }
@@ -75,3 +75,6 @@ rstest          = { version = "0.26" }
 serde           = { default-features = false, version = "1.0" }
 thiserror       = { default-features = false, version = "2.0" }
 tokio           = { default-features = false, features = ["sync"], version = "1" }
+
+[patch.crates-io]
+miden-crypto = { git = "https://github.com/0xMiden/crypto.git", branch = "bernhard-migrate-rocksdb-from-crypto" }
