@@ -242,13 +242,13 @@ pub proc build_recipient
     movdnw.2
     # => [SERIAL_NUM, SCRIPT_ROOT, INPUTS_COMMITMENT]
 
-    padw adv.insert_hdword exec.poseidon2::merge
+    padw swapw adv.insert_hdword exec.poseidon2::merge
     # => [SERIAL_HASH, SCRIPT_ROOT, INPUTS_COMMITMENT]
 
-    swapw adv.insert_hdword exec.poseidon2::merge
+    adv.insert_hdword exec.poseidon2::merge
     # => [SERIAL_SCRIPT_HASH, INPUTS_COMMITMENT]
 
-    swapw adv.insert_hdword exec.poseidon2::merge
+    adv.insert_hdword exec.poseidon2::merge
     # => [RECIPIENT]
 end
 
@@ -265,13 +265,13 @@ end
 #!
 #! Invocation: exec
 pub proc build_recipient_hash
-    padw exec.poseidon2::merge
+    padw swapw exec.poseidon2::merge
     # => [SERIAL_NUM_HASH, SCRIPT_ROOT, STORAGE_COMMITMENT]
 
-    swapw exec.poseidon2::merge
+    exec.poseidon2::merge
     # => [MERGE_SCRIPT, STORAGE_COMMITMENT]
 
-    swapw exec.poseidon2::merge
+    exec.poseidon2::merge
     # [RECIPIENT]
 end
 
@@ -285,13 +285,15 @@ end
 #! - sender_{prefix,suffix} are the prefix and suffix felts of the sender ID of the note which
 #!   metadata was provided.
 pub proc extract_sender_from_metadata
-    # => [aux, tag_payload, sender_id_prefix, sender_id_suffix_and_note_type_hint]
+    # => [sender_id_prefix, sender_id_suffix_and_note_type_hint, tag_payload, aux]
 
-    # drop aux and tag payload
-    drop drop swap
-    # => [sender_id_suffix_and_note_type, sender_id_prefix]
+    # drop tag payload and aux
+    movup.2 drop
+    movup.2 drop
+    # => [sender_id_prefix, sender_id_suffix_and_note_type_hint]
 
     # extract suffix of sender from merged layout, which means clearing the least significant byte
+    swap
     exec.account_id::shape_suffix
     # => [sender_id_suffix, sender_id_prefix]
 
@@ -319,14 +321,14 @@ pub proc build_note_tag_for_network_account
     # => [account_id_prefix]
 
     u32split
-    # => [a_hi, a_lo]
+    # => [a_lo, a_hi]
 
     push.34
     # => [b, a_hi, a_lo]
 
     exec.u64::shr
-    # => [c_hi, c_lo]
+    # => [c_lo, c_hi]
 
-    drop
+    swap drop
     # => [network_account_tag]
 end

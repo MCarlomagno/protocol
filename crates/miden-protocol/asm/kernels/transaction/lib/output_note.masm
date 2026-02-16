@@ -288,16 +288,15 @@ pub proc build_metadata
     # Extract execution hint tag (lower 6 bits).
     dup.3
     u32split
-    swap
     push.0x3f u32and
     swap drop
     # => [hint_tag, tag, aux, note_type, execution_hint]
 
     # Extract execution hint payload (execution_hint >> 6).
     dup.4
-    u32split swap
+    u32split
     push.6 exec.u64::shr
-    drop
+    swap drop
     # => [hint_payload, hint_tag, tag, aux, note_type, execution_hint]
 
     # Build [note_execution_hint_payload | note_tag].

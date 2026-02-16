@@ -69,6 +69,16 @@ impl TransactionKernel {
     /// Array of kernel procedures.
     pub const PROCEDURES: &'static [Word] = &procedures::KERNEL_PROCEDURES;
 
+    /// Returns the index of the kernel procedure matching the provided MAST root.
+    pub fn procedure_index(root: &Word) -> Option<usize> {
+        Self::PROCEDURES.iter().position(|proc_root| proc_root == root)
+    }
+
+    /// Returns the name of the kernel procedure matching the provided MAST root.
+    pub fn procedure_name(root: &Word) -> Option<&'static str> {
+        Self::procedure_index(root).map(|index| procedures::KERNEL_PROCEDURE_NAMES[index])
+    }
+
     // KERNEL SOURCE CODE
     // --------------------------------------------------------------------------------------------
 

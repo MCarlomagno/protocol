@@ -70,8 +70,8 @@ pub proc compute_commitment
     hperm
     # => [RATE, RATE, PERM]
 
-    # save the ID and nonce digest (the 2nd rate word) for a later check
-    dupw.1 movdnw.3
+    # save the ID and nonce digest (the 1st rate word) for a later check
+    dupw movdnw.3
     # => [RATE, RATE, PERM, ID_AND_NONCE_DIGEST]
 
     exec.update_fungible_asset_delta

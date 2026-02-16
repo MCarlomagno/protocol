@@ -87,6 +87,14 @@ impl MastForestStore for TransactionMastStore {
         #[cfg(feature = "std")]
         if result.is_none() && std::env::var("MIDEN_DEBUG_MAST_STORE").is_ok() {
             std::eprintln!("mast_store::miss root={procedure_root}");
+            if let Some(index) = TransactionKernel::procedure_index(procedure_root) {
+                let name = TransactionKernel::procedure_name(procedure_root)
+                    .unwrap_or("unknown_kernel_procedure");
+                std::eprintln!("mast_store::miss kernel_proc index={index} name={name}");
+                std::eprintln!(
+                    "mast_store::hint regenerate kernel procedure roots with BUILD_GENERATED_FILES_IN_SRC=1"
+                );
+            }
             let reversed = Word::new([
                 procedure_root[3],
                 procedure_root[2],

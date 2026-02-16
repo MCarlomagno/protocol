@@ -71,6 +71,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4b46cbb362ab8752921c97e041f5e366ee6297bd428a31275b9fcf1e380f7299"
 
 [[package]]
+name = "ansi_term"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d52a9bb7ec0cf484c551830a7ce27bd20d67eac647e1befb56b0be4ee39a55d2"
+dependencies = [
+ "winapi",
+]
+
+[[package]]
 name = "anstream"
 version = "0.6.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -223,6 +232,8 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
+ "tracing-forest",
+ "tracing-subscriber 0.3.22",
 ]
 
 [[package]]
@@ -1354,7 +1365,8 @@ dependencies = [
 
 [[package]]
 name = "miden-air"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "miden-core",
  "miden-crypto",
@@ -1366,7 +1378,8 @@ dependencies = [
 
 [[package]]
 name = "miden-assembly"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "env_logger",
  "log",
@@ -1379,7 +1392,8 @@ dependencies = [
 
 [[package]]
 name = "miden-assembly-syntax"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "aho-corasick",
  "env_logger",
@@ -1409,7 +1423,8 @@ dependencies = [
 
 [[package]]
 name = "miden-core"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "derive_more",
  "itertools 0.14.0",
@@ -1429,7 +1444,8 @@ dependencies = [
 
 [[package]]
 name = "miden-core-lib"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "env_logger",
  "fs-err",
@@ -1502,7 +1518,8 @@ dependencies = [
 
 [[package]]
 name = "miden-debug-types"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "memchr",
  "miden-crypto",
@@ -1527,7 +1544,8 @@ dependencies = [
 
 [[package]]
 name = "miden-mast-package"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "derive_more",
  "miden-assembly-syntax",
@@ -1573,7 +1591,8 @@ dependencies = [
 
 [[package]]
 name = "miden-processor"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "itertools 0.14.0",
  "miden-air",
@@ -1639,7 +1658,8 @@ dependencies = [
 
 [[package]]
 name = "miden-prover"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "bincode",
  "miden-air",
@@ -1684,7 +1704,7 @@ dependencies = [
 [[package]]
 name = "miden-test-utils"
 version = "0.1.0"
-source = "git+https://github.com/0xMiden/miden-vm?branch=next#ea1870fc30113ac2dd611e38fc5b022b57e7b637"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "env_logger",
  "miden-air",
@@ -1752,7 +1772,8 @@ dependencies = [
 
 [[package]]
 name = "miden-utils-core-derive"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1761,7 +1782,8 @@ dependencies = [
 
 [[package]]
 name = "miden-utils-diagnostics"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "miden-crypto",
  "miden-debug-types",
@@ -1772,7 +1794,8 @@ dependencies = [
 
 [[package]]
 name = "miden-utils-indexing"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "miden-crypto",
  "serde",
@@ -1781,7 +1804,8 @@ dependencies = [
 
 [[package]]
 name = "miden-utils-sync"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "lock_api",
  "loom",
@@ -1791,7 +1815,8 @@ dependencies = [
 
 [[package]]
 name = "miden-verifier"
-version = "0.21.0"
+version = "0.22.0"
+source = "git+https://github.com/0xMiden/miden-vm?branch=next#0dda75d640ea638ed5efa30ffd5f1c82763301a9"
 dependencies = [
  "bincode",
  "miden-air",
@@ -3351,6 +3376,19 @@ checksum = "b4d7c0b83d4a500748fa5879461652b361edf5c9d51ede2a2ac03875ca185e24"
 dependencies = [
  "tracing",
  "tracing-subscriber 0.2.25",
+]
+
+[[package]]
+name = "tracing-forest"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3298fe855716711a00474eceb89cc7dc254bbe67f6bc4afafdeec5f0c538771c"
+dependencies = [
+ "ansi_term",
+ "smallvec",
+ "thiserror",
+ "tracing",
+ "tracing-subscriber 0.3.22",
 ]
 
 [[package]]

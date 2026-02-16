@@ -3,7 +3,7 @@ use alloc::sync::Arc;
 
 use anyhow::Context;
 use miden_core::field::PrimeField64;
-use miden_processor::fast::ExecutionOutput;
+use miden_processor::ExecutionOutput;
 use miden_protocol::account::auth::PublicKeyCommitment;
 use miden_protocol::account::{AccountBuilder, AccountId};
 use miden_protocol::assembly::DefaultSourceManager;
@@ -78,7 +78,7 @@ async fn test_note_setup() -> anyhow::Result<()> {
             # => [SCRIPT_ROOT, NOTE_ARGS, pad(11), pad(16)]
 
             # truncate the stack
-            repeat.19 movup.8 drop end
+            repeat.20 movup.8 drop end
         end
         ";
 
@@ -128,6 +128,7 @@ async fn test_note_script_and_note_args() -> miette::Result<()> {
         use $kernel::prologue
         use $kernel::memory
         use $kernel::note
+        use miden::core::sys
 
         begin
             exec.prologue::prepare_transaction
@@ -146,7 +147,7 @@ async fn test_note_script_and_note_args() -> miette::Result<()> {
             # => [NOTE_ARGS1, NOTE_ARGS0, pad(16)]
 
             # truncate the stack
-            swapdw dropw dropw
+            exec.sys::truncate_stack
         end
         ";
 
@@ -169,15 +170,9 @@ async fn test_note_script_and_note_args() -> miette::Result<()> {
 }
 
 fn note_setup_stack_assertions(exec_output: &ExecutionOutput, inputs: &TransactionContext) {
-    let mut expected_stack = [ZERO; 16];
-
-    // replace the top four elements with the tx script root
-    let mut note_script_root = *inputs.input_notes().get_note(0).note().script().root();
-    note_script_root.reverse();
-    expected_stack[..4].copy_from_slice(&note_script_root);
-
-    // assert that the stack contains the note inputs at the end of execution
-    assert_eq!(exec_output.stack.as_slice(), expected_stack.as_slice())
+    let note_script_root = *inputs.input_notes().get_note(0).note().script().root();
+    assert_eq!(exec_output.get_stack_word_le(0), note_script_root.into());
+    assert!(exec_output.stack[4..].iter().all(|elem| elem == &ZERO));
 }
 
 fn note_setup_memory_assertions(exec_output: &ExecutionOutput) {
@@ -271,13 +266,9 @@ async fn test_build_recipient() -> anyhow::Result<()> {
     let note_inputs_13 = NoteInputs::new(inputs_13)?;
     let recipient_13 = NoteRecipient::new(serial_num, note_script, note_inputs_13);
 
-    let mut expected_stack = alloc::vec::Vec::new();
-    expected_stack.extend_from_slice(recipient_4.digest().as_elements());
-    expected_stack.extend_from_slice(recipient_5.digest().as_elements());
-    expected_stack.extend_from_slice(recipient_13.digest().as_elements());
-    expected_stack.reverse();
-
-    assert_eq!(exec_output.stack[0..12], expected_stack);
+    assert_eq!(exec_output.get_stack_word_le(0), recipient_13.digest());
+    assert_eq!(exec_output.get_stack_word_le(4), recipient_5.digest());
+    assert_eq!(exec_output.get_stack_word_le(8), recipient_4.digest());
     Ok(())
 }
 
@@ -357,15 +348,10 @@ async fn test_compute_inputs_commitment() -> anyhow::Result<()> {
     inputs_15.extend_from_slice(&word_4[0..3]);
     let note_inputs_15_hash = NoteInputs::new(inputs_15)?.commitment();
 
-    let mut expected_stack = alloc::vec::Vec::new();
-
-    expected_stack.extend_from_slice(note_inputs_5_hash.as_elements());
-    expected_stack.extend_from_slice(note_inputs_8_hash.as_elements());
-    expected_stack.extend_from_slice(note_inputs_15_hash.as_elements());
-    expected_stack.extend_from_slice(Word::empty().as_elements());
-    expected_stack.reverse();
-
-    assert_eq!(exec_output.stack[0..16], expected_stack);
+    assert_eq!(exec_output.get_stack_word_le(0), Word::empty());
+    assert_eq!(exec_output.get_stack_word_le(4), note_inputs_15_hash);
+    assert_eq!(exec_output.get_stack_word_le(8), note_inputs_8_hash);
+    assert_eq!(exec_output.get_stack_word_le(12), note_inputs_5_hash);
     Ok(())
 }
 

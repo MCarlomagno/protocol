@@ -15,6 +15,9 @@ harness = false
 name    = "time_counting_benchmarks"
 path    = "src/time_counting_benchmarks/prove.rs"
 
+[features]
+concurrent = ["miden-tx/concurrent"]
+
 [dependencies]
 # Workspace dependencies
 miden-protocol  = { features = ["testing"], workspace = true }
@@ -30,3 +33,5 @@ tokio      = { features = ["macros", "rt"], workspace = true }
 
 [dev-dependencies]
 criterion = { features = ["async_tokio", "html_reports"], version = "0.6" }
+tracing-forest = { version = "0.2", features = ["ansi", "smallvec"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

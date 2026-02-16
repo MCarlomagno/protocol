@@ -209,7 +209,7 @@ fn generate_kernel_proc_hash_file(kernel: KernelLibrary) -> Result<()> {
         Path::new(ASM_DIR).join(ASM_PROTOCOL_DIR).join("kernel_proc_offsets.masm");
     let offsets = parse_proc_offsets(&offsets_filename)?;
 
-    let generated_procs: BTreeMap<usize, String> = module_info
+    let generated_procs: BTreeMap<usize, (String, String)> = module_info
         .procedures()
         .filter(|(_, proc_info)| !to_exclude.contains::<str>(proc_info.name.as_ref()))
         .map(|(_, proc_info)| {
@@ -219,18 +219,30 @@ fn generate_kernel_proc_hash_file(kernel: KernelLibrary) -> Result<()> {
                 panic!("Offset constant for function `{name}` not found in `{offsets_filename:?}`");
             };
 
-            (offset, format!("    // {name}\n    word!(\"{}\"),", proc_info.digest))
+            (
+                offset,
+                (
+                    name.clone(),
+                    format!("    // {name}\n    word!(\"{}\"),", proc_info.digest),
+                ),
+            )
         })
         .collect();
 
     let proc_count = generated_procs.len();
-    let generated_procs: String = generated_procs.into_iter().enumerate().map(|(index, (offset, txt))| {
+    let mut generated_proc_lines = Vec::with_capacity(proc_count);
+    let mut generated_name_lines = Vec::with_capacity(proc_count);
+    for (index, (offset, (name, proc_txt))) in generated_procs.into_iter().enumerate() {
         if index != offset {
             panic!("Offset constants in the file `{offsets_filename:?}` are not contiguous (missing offset: {index})");
         }
 
-        txt
-    }).collect::<Vec<_>>().join("\n");
+        generated_proc_lines.push(proc_txt);
+        generated_name_lines.push(format!("    // {name}\n    \"{name}\","));
+    }
+
+    let generated_procs = generated_proc_lines.join("\n");
+    let generated_names = generated_name_lines.join("\n");
 
     fs::write(
         KERNEL_PROCEDURES_RS_FILE,
@@ -245,6 +257,11 @@ use crate::{{Word, word}};
 /// Hashes of all dynamically executed kernel procedures.
 pub const KERNEL_PROCEDURES: [Word; {proc_count}] = [
 {generated_procs}
+];
+
+/// Names of all dynamically executed kernel procedures.
+pub const KERNEL_PROCEDURE_NAMES: [&str; {proc_count}] = [
+{generated_names}
 ];
 "#,
         ),

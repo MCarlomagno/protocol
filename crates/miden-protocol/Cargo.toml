@@ -45,7 +45,7 @@ miden-crypto          = { workspace = true }
 miden-mast-package    = { workspace = true }
 miden-processor       = { workspace = true }
 miden-protocol-macros = { workspace = true }
-miden-test-utils      = { branch = "next", git = "https://github.com/0xMiden/miden-vm", optional = true }
+miden-test-utils      = { git = "https://github.com/0xMiden/miden-vm", branch = "next", optional = true }
 miden-utils-sync      = { workspace = true }
 miden-verifier        = { workspace = true }
 

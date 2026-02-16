@@ -28,7 +28,7 @@ pub const KERNEL_PROCEDURES: [Word; 52] = [
     // account_get_initial_item
     word!("0xff00384d8ac2104a5f574d14dca1361871467d46dc194c4cf4a233532aed2325"),
     // account_set_item
-    word!("0xf05a15cc0507c4b5b89e2de818062aee472d9c89167aadcc8a756491668c5b82"),
+    word!("0xdd160e6ac0053e729d485f69bd45ebd1ac1f3d5463cee5b4e377af88cf722978"),
     // account_get_map_item
     word!("0xe464452d50007452c08a60017447fe8df61268c06e62b30ac04b43e7fdae2c84"),
     // account_get_initial_map_item
@@ -40,9 +40,9 @@ pub const KERNEL_PROCEDURES: [Word; 52] = [
     // account_get_vault_root
     word!("0x1e3d8f19d76a87777ca8e07774b5e99c7fd20e51ff834a9f531ca0bde82ed269"),
     // account_add_asset
-    word!("0x04ec58460df393a44498eefaae516f02331d924cd2b25cf398e675456def3df8"),
+    word!("0x133a2206c11f843fc0a5e4f234fad60982014bf91db1e29197fcee2c08b1415f"),
     // account_remove_asset
-    word!("0x329cfa6b81e0d3adab1faa7f34c0af8baba2ac01160b4ee199fb0b9f8a291bb4"),
+    word!("0x5ba6a99e374cd8861447b40be9d1235af3c4bfe9f793b7fc79f4ed13f6770812"),
     // account_get_balance
     word!("0xc4bbc38bf2f239397c9c4aec9ffb415068c5e047f6d3bb36c73cb04e6abe661a"),
     // account_get_initial_balance
@@ -50,7 +50,7 @@ pub const KERNEL_PROCEDURES: [Word; 52] = [
     // account_has_non_fungible_asset
     word!("0x3781397f32da1b58b79757828ccfc3f5e02d4a9e314dcdea85d2648eaca51a21"),
     // account_compute_delta_commitment
-    word!("0x97ea24a865cb1dec33e973d2b700d11578641ca8045239c54853aec9e141a62d"),
+    word!("0xace0339a8c2bd076e64721f26b11f305851a7b54f36a58a965cd5dc2dbde0b54"),
     // account_get_num_procedures
     word!("0xf633ec7d9776c462ada535bf44fea0602f16d0a6bb6ca58265f0c4867e2647b6"),
     // account_get_procedure_root
@@ -60,13 +60,13 @@ pub const KERNEL_PROCEDURES: [Word; 52] = [
     // account_has_procedure
     word!("0xfb2687afc69061527c6583c52597949e99a28e1444dde349ce8f6cb00be2062e"),
     // faucet_mint_asset
-    word!("0x95091967dbccbf7f5b9227e19cd8b7383ebf202b9c80f5fd5971f2caf76a9141"),
+    word!("0x72872254c8b5332ac42c7cd31e2a84238b983267264cf51e3a997e2c3cdd4073"),
     // faucet_burn_asset
-    word!("0x6732056cff7a067a4e884973cd3b90b9ab6667afd532389db081e0869824769e"),
+    word!("0x617e456e768ceb617888766a7df051711aa69b6d1c395bd024b2fba7ba42ad62"),
     // faucet_get_total_fungible_asset_issuance
-    word!("0x5eb9946b9a50b87d55bc5c2bff1327c5a589cd2aa4eff7c43b9317509420acd9"),
+    word!("0x7ad6d6123df1028cc10a6f4cd3a4c7f5cd6218ac125bccd86bd54a53f9e61774"),
     // faucet_is_non_fungible_asset_issued
-    word!("0x91440e8d5f96c7f65f5837d74930580cbcdc63f0f7f449e4ad49b6b0e735ad1d"),
+    word!("0xc8be2dc5e233f0823329f0106cd7efa5ef8c1ad1fff547d00532a1cb00d5059e"),
     // input_note_get_metadata
     word!("0x00054c4b097adae656b7d7a7721425d91a1923164bf16b1cab83c730807944e1"),
     // input_note_get_assets_info
@@ -80,7 +80,7 @@ pub const KERNEL_PROCEDURES: [Word; 52] = [
     // input_note_get_recipient
     word!("0xcb486b16e78907161dda464e7f8ab4ce05d55b78d2f1d0af7dba32b20b842cc0"),
     // output_note_create
-    word!("0xe2021acbfca124a80153d660811ce66077ba173c75757347d42382d3d9b1ac46"),
+    word!("0x433eac69a353da131f0ade3047f1d8031e9119e274c41564e7900f6230f705b9"),
     // output_note_get_metadata
     word!("0x3536347c35d038e03ae573a13fe44ef800452617f3ff905a0be32161f35092b0"),
     // output_note_get_assets_info
@@ -111,4 +111,112 @@ pub const KERNEL_PROCEDURES: [Word; 52] = [
     word!("0xbffe80441afba3fea6441d094d87012da55c5dacd5d280db749b74f5e8a10cf8"),
     // tx_update_expiration_block_delta
     word!("0xd681ec53d6a3df1dc1702ab9dd46bcea3830d6f590b9385ccc88583e87ab15fd"),
+];
+
+/// Names of all dynamically executed kernel procedures.
+pub const KERNEL_PROCEDURE_NAMES: [&str; 52] = [
+    // account_get_initial_commitment
+    "account_get_initial_commitment",
+    // account_compute_commitment
+    "account_compute_commitment",
+    // account_get_id
+    "account_get_id",
+    // account_get_nonce
+    "account_get_nonce",
+    // account_incr_nonce
+    "account_incr_nonce",
+    // account_get_code_commitment
+    "account_get_code_commitment",
+    // account_get_initial_storage_commitment
+    "account_get_initial_storage_commitment",
+    // account_compute_storage_commitment
+    "account_compute_storage_commitment",
+    // account_get_item
+    "account_get_item",
+    // account_get_initial_item
+    "account_get_initial_item",
+    // account_set_item
+    "account_set_item",
+    // account_get_map_item
+    "account_get_map_item",
+    // account_get_initial_map_item
+    "account_get_initial_map_item",
+    // account_set_map_item
+    "account_set_map_item",
+    // account_get_initial_vault_root
+    "account_get_initial_vault_root",
+    // account_get_vault_root
+    "account_get_vault_root",
+    // account_add_asset
+    "account_add_asset",
+    // account_remove_asset
+    "account_remove_asset",
+    // account_get_balance
+    "account_get_balance",
+    // account_get_initial_balance
+    "account_get_initial_balance",
+    // account_has_non_fungible_asset
+    "account_has_non_fungible_asset",
+    // account_compute_delta_commitment
+    "account_compute_delta_commitment",
+    // account_get_num_procedures
+    "account_get_num_procedures",
+    // account_get_procedure_root
+    "account_get_procedure_root",
+    // account_was_procedure_called
+    "account_was_procedure_called",
+    // account_has_procedure
+    "account_has_procedure",
+    // faucet_mint_asset
+    "faucet_mint_asset",
+    // faucet_burn_asset
+    "faucet_burn_asset",
+    // faucet_get_total_fungible_asset_issuance
+    "faucet_get_total_fungible_asset_issuance",
+    // faucet_is_non_fungible_asset_issued
+    "faucet_is_non_fungible_asset_issued",
+    // input_note_get_metadata
+    "input_note_get_metadata",
+    // input_note_get_assets_info
+    "input_note_get_assets_info",
+    // input_note_get_script_root
+    "input_note_get_script_root",
+    // input_note_get_inputs_info
+    "input_note_get_inputs_info",
+    // input_note_get_serial_number
+    "input_note_get_serial_number",
+    // input_note_get_recipient
+    "input_note_get_recipient",
+    // output_note_create
+    "output_note_create",
+    // output_note_get_metadata
+    "output_note_get_metadata",
+    // output_note_get_assets_info
+    "output_note_get_assets_info",
+    // output_note_get_recipient
+    "output_note_get_recipient",
+    // output_note_add_asset
+    "output_note_add_asset",
+    // tx_get_num_input_notes
+    "tx_get_num_input_notes",
+    // tx_get_input_notes_commitment
+    "tx_get_input_notes_commitment",
+    // tx_get_num_output_notes
+    "tx_get_num_output_notes",
+    // tx_get_output_notes_commitment
+    "tx_get_output_notes_commitment",
+    // tx_get_block_commitment
+    "tx_get_block_commitment",
+    // tx_get_block_number
+    "tx_get_block_number",
+    // tx_get_block_timestamp
+    "tx_get_block_timestamp",
+    // tx_start_foreign_context
+    "tx_start_foreign_context",
+    // tx_end_foreign_context
+    "tx_end_foreign_context",
+    // tx_get_expiration_delta
+    "tx_get_expiration_delta",
+    // tx_update_expiration_block_delta
+    "tx_update_expiration_block_delta",
 ];
