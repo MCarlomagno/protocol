@@ -79,13 +79,14 @@ impl AccountIdV0 {
     ) -> Result<Self, AccountIdError> {
         let seed_digest = compute_digest(seed, code_commitment, storage_commitment);
 
-        let mut felts: [Felt; 2] = seed_digest.as_elements()[0..2]
-            .try_into()
-            .expect("we should have sliced off 2 elements");
+        // Use the two most significant elements of the seed digest as the account ID, where the
+        // prefix is the most significant one.
+        let mut suffix = seed_digest[2];
+        let prefix = seed_digest[3];
 
-        felts[1] = shape_suffix(felts[1]);
+        suffix = shape_suffix(suffix);
 
-        account_id_from_felts(felts)
+        account_id_from_felts([prefix, suffix])
     }
 
     /// See [`AccountId::new_unchecked`](super::AccountId::new_unchecked) for details.

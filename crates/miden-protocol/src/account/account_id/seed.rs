@@ -53,8 +53,8 @@ fn compute_account_seed_single(
     loop {
         // Check if the seed satisfies the specified type, storage mode and version. Additionally,
         // the most significant bit of the suffix must be zero to ensure felt validity.
-        let prefix = current_digest.as_elements()[0];
-        let suffix = current_digest.as_elements()[1];
+        let suffix = current_digest[2];
+        let prefix = current_digest[3];
         let is_suffix_msb_zero = suffix.as_canonical_u64() >> 63 == 0;
 
         if let Ok((computed_account_type, computed_storage_mode, computed_version)) =
