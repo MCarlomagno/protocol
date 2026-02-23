@@ -53,7 +53,7 @@ const METADATA_SLOT=word("miden::standards::fungible_faucets::metadata")
 #! - the token supply after minting is greater than the maximum allowed supply.
 #!
 #! Invocation: exec
-@locals(4)
+@locals(8)
 pub proc distribute
     # Get the configured max supply and the token supply (= current supply).
     # ---------------------------------------------------------------------------------------------
@@ -128,10 +128,20 @@ pub proc distribute
     exec.faucet::create_fungible_asset
     # => [ASSET, tag, note_type, RECIPIENT]
 
+    # save a copy of the original ASSET before minting, because faucet::mint returns the
+    # cumulative vault total (ASSET') instead of the original ASSET when called multiple times
+    # in the same transaction
+    loc_storew_be.4
+    # => [ASSET, tag, note_type, RECIPIENT]
+
     # mint the asset; this is needed to satisfy asset preservation logic.
     # this ensures that the asset's faucet ID matches the native account's ID.
     # this is ensured because create_fungible_asset creates the asset with the native account's ID
     exec.faucet::mint
+    # => [ASSET', tag, note_type, RECIPIENT]
+
+    # discard ASSET' (cumulative total) and restore the original ASSET
+    dropw padw loc_loadw_be.4
     # => [ASSET, tag, note_type, RECIPIENT]
 
     movdn.9 movdn.9 movdn.9 movdn.9
